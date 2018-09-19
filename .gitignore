@@ -4,6 +4,7 @@ mvnw
 mvnw.cmd
 .mvnw
 .mvn
+application.properties
 
 ### STS ###
 .apt_generated
