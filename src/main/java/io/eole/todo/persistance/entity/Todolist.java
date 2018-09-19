@@ -21,6 +21,7 @@ public class Todolist {
     private String title;
 
     public Todolist() {
+        this.date = new Date();
     }
 
     public long getId() {
