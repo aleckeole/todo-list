@@ -1,5 +1,7 @@
 package io.eole.todo.persistance.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,8 +24,9 @@ public class Todolist {
     @Column
     private String title;
 
-   /* @OneToMany(fetch = FetchType.EAGER, mappedBy = "todolist", cascade = CascadeType.ALL)
-    private List<Task> tasks = new ArrayList<>();*/
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "todolist", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Task> tasks = new ArrayList<>();
 
 
 
@@ -55,11 +58,11 @@ public class Todolist {
         this.title = title;
     }
 
-  /*  public List<Task> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
-    }*/
+    }
 }
