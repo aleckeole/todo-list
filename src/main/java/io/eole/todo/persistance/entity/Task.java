@@ -1,6 +1,9 @@
 package io.eole.todo.persistance.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table
@@ -17,7 +20,8 @@ public class Task {
     @Column
     private boolean done = false;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, optional = false)
+    @JsonIgnore
     private Todolist todolist;
 
     public Task() {

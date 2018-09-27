@@ -1,12 +1,16 @@
 package io.eole.todo.dto;
 
+import io.eole.todo.persistance.entity.Task;
+
 import java.util.Date;
+import java.util.List;
 
 public class TodolistDTO {
 
     private long id;
     private Date date;
     private String title;
+    private List<TaskDTO> tasks;
 
     public TodolistDTO() {
     }
@@ -33,5 +37,13 @@ public class TodolistDTO {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public List<TaskDTO> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<TaskDTO> tasks) {
+        this.tasks = tasks;
     }
 }

@@ -1,7 +1,10 @@
 package io.eole.todo.service.impl;
 
+import io.eole.todo.dto.TaskDTO;
 import io.eole.todo.dto.TodolistDTO;
+import io.eole.todo.persistance.entity.Task;
 import io.eole.todo.persistance.entity.Todolist;
+import io.eole.todo.service.ITaskService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,65 +25,73 @@ public class TodolistServiceTest {
     @Autowired
     TodolistService service;
 
-    Todolist mondayTodo;
+    @Autowired
+    ITaskService taskService;
+
+    Todolist todo1;
 
     @Before
     public void setUp() throws Exception {
-        mondayTodo = new Todolist();
-        mondayTodo.setDate(new Date());
-        mondayTodo.setTitle("Liste course du lundi");
-
+        todo1 = new Todolist();
+        todo1.setDate(new Date());
+        todo1.setTitle("Liste course du lundi");
+        TodolistDTO todo1DTO = service.save(todo1);
     }
 
     @After
     public void tearDown() throws Exception {
-        service.delete(mondayTodo.getId());
+        service.delete(todo1.getId());
     }
 
     @Test
     public void save() {
-
-        TodolistDTO mondayTodoDTO = service.save(mondayTodo);
-        TodolistDTO findMondayDTO = service.findOneById(mondayTodo.getId());
-        assertEquals(mondayTodoDTO.getTitle(), findMondayDTO.getTitle());
+        TodolistDTO todo1DTO = service.findOneById(todo1.getId());
+        assertEquals(todo1.getTitle(), todo1DTO.getTitle());
     }
 
 
     @Test
     public void findOneById() {
-        TodolistDTO mondayTodoDTO = service.save(mondayTodo);
-        TodolistDTO findMondayTodoDTO = service.findOneById(mondayTodoDTO.getId());
-        assertEquals(mondayTodoDTO.getTitle(), findMondayTodoDTO.getTitle());
+        TodolistDTO todo1DTO = service.findOneById(todo1.getId());
+        assertEquals(todo1.getTitle(), todo1DTO.getTitle());
     }
+
+   /* @Test
+    public void findOneWithTasks() {
+        Task task = new Task();
+        task.setContent("Coca cola");
+        TaskDTO taskDTO = taskService.saveByTodolist(task, todo1.getId());
+
+        TodolistDTO todo1DTO = service.findOneById(todo1.getId());
+        assertEquals(taskDTO.getContent(), todo1DTO.getTasks().get(0).getContent());
+    }*/
 
     @Test
     public void delete() {
-        Todolist fridayTodo = new Todolist();
-        fridayTodo.setDate(new Date());
-        fridayTodo.setTitle("Things to do");
 
-        TodolistDTO mondayTodoDTO = service.save(mondayTodo);
-        TodolistDTO fridayTodoDTO = service.save(fridayTodo);
+        Todolist todo2 = new Todolist();
+        todo2.setDate(new Date());
+        todo2.setTitle("Things to do");
+        TodolistDTO todo2DTO = service.save(todo2);
 
-        List<TodolistDTO> todolistDTOs = service.findAll();
-        assertTrue(todolistDTOs.size() == 2);
+        List<TodolistDTO> todolistsDTO = service.findAll();
+        assertTrue(todolistsDTO.size() == 2);
 
-        service.delete(fridayTodoDTO.getId());
-        todolistDTOs = service.findAll();
-        assertTrue(todolistDTOs.size() != 2);
+        service.delete(todo2.getId());
+        todolistsDTO = service.findAll();
+        assertTrue(todolistsDTO.size() != 2);
 
     }
 
     @Test
     public void findAll() {
-        Todolist fridayTodo = new Todolist();
-        fridayTodo.setDate(new Date());
-        fridayTodo.setTitle("Things to do");
-
-        TodolistDTO mondayTodoDTO = service.save(mondayTodo);
-        TodolistDTO fridayTodoDTO = service.save(fridayTodo);
+        Todolist todo2 = new Todolist();
+        todo2.setDate(new Date());
+        todo2.setTitle("Things to do");
+        TodolistDTO todo2DTO = service.save(todo2);
 
         List<TodolistDTO> todolistDTOs = service.findAll();
         assertTrue(todolistDTOs.size() == 2);
+        service.delete(todo2DTO.getId());
     }
 }

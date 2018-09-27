@@ -1,7 +1,9 @@
 package io.eole.todo.persistance.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table
@@ -19,6 +21,11 @@ public class Todolist {
 
     @Column
     private String title;
+
+   /* @OneToMany(fetch = FetchType.EAGER, mappedBy = "todolist", cascade = CascadeType.ALL)
+    private List<Task> tasks = new ArrayList<>();*/
+
+
 
     public Todolist() {
         this.date = new Date();
@@ -47,4 +54,12 @@ public class Todolist {
     public void setTitle(String title) {
         this.title = title;
     }
+
+  /*  public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }*/
 }

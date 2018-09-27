@@ -7,11 +7,13 @@ import io.eole.todo.exception.NotFoundException;
 import io.eole.todo.persistance.entity.Task;
 import io.eole.todo.persistance.entity.Todolist;
 import io.eole.todo.persistance.repository.ITaskRepository;
+import io.eole.todo.persistance.repository.ITodolistRepository;
 import io.eole.todo.service.ITaskService;
 import io.eole.todo.service.ITodolistService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +29,21 @@ public class TaskService implements ITaskService {
     ITodolistService todolistService;
 
     @Autowired
+    ITodolistRepository todolistRepository;
+
+    @Autowired
     ModelMapper modelMapper;
 
     @Override
+    @Transactional
     public TaskDTO saveByTodolist(Task task, long idTodolist) {
-        TodolistDTO todolistDTO = todolistService.findOneById(idTodolist);
-        Todolist todolist = modelMapper.map(todolistDTO, Todolist.class);
-        task.setTodolist(todolist);
+
+        Optional<Todolist> tmp = todolistRepository.findById(idTodolist);
+        if (tmp.isPresent()) {
+            Todolist todolist = modelMapper.map(tmp.get(), Todolist.class);
+            task.setTodolist(todolist);
+        }
+
         task = repository.save(task);
         return modelMapper.map(task, TaskDTO.class);
 
@@ -61,7 +71,13 @@ public class TaskService implements ITaskService {
     @Override
     public void delete(long id) {
         TaskDTO taskDTO = findOneById(id);
-        repository.deleteById(taskDTO.getId());
+        Task task = modelMapper.map(taskDTO, Task.class);
+        this.repository.delete(task);
     }
 
+    @Override
+    public TaskDTO save(Task task) {
+        task = repository.save(task);
+        return modelMapper.map(task, TaskDTO.class);
+    }
 }

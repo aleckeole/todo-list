@@ -23,64 +23,72 @@ import static org.junit.Assert.*;
 public class TaskServiceTest {
 
     @Autowired
-    ITaskService service;
+    TaskService service;
 
     @Autowired
     ITodolistService todolistService;
 
-    Task taskRiz;
+    Task task1;
     Todolist todolist;
     TodolistDTO todolistDTO;
-    TaskDTO taskDTO;
+
 
     @Before
     public void setUp() throws Exception {
-        taskRiz = new Task();
+        task1 = new Task();
+        task1.setContent("Riz basmati");
+
         todolist = new Todolist();
-        todolistDTO = new TodolistDTO();
-        taskDTO = new TaskDTO();
-
-        taskRiz.setContent("Riz basmati");
         todolist.setTitle("Course de la semaine");
-        todolistDTO = todolistService.save(todolist);
-        taskDTO = service.saveByTodolist(taskRiz, todolist.getId());
 
+        task1.setTodolist(todolist);
+        TaskDTO taskDTO = service.save(task1);
 
     }
 
     @After
     public void tearDown() throws Exception {
-        service.delete(taskRiz.getId());
-        todolistService.delete(todolist.getId());
+        service.delete(task1.getId());
+        //todolistService.delete(todolist.getId());
     }
 
     @Test
     public void saveByTodolist() {
-       taskDTO = service.findOneById(taskDTO.getId());
-       assertEquals(taskRiz.getContent(), taskDTO.getContent());
-       assertEquals(taskDTO.getTodolist().getTitle(), todolistDTO.getTitle());
+       TaskDTO taskDTO = service.findOneById(task1.getId());
+       assertEquals(task1.getContent(), taskDTO.getContent());
+       assertEquals(taskDTO.getTodolist().getTitle(), todolist.getTitle());
 
     }
 
+   @Test
+   public void save() {
+       TaskDTO taskDTO = service.findOneById(task1.getId());
+       assertNotNull(taskDTO);
+
+   }
+
     @Test
     public void findAll() {
-        Task taskSoda = new Task();
-        taskSoda.setContent("Cola");
-        TaskDTO taskSodaDTO = service.saveByTodolist(taskSoda, todolist.getId());
-        List<TaskDTO> taskDTOs = service.findAll();
-        assertEquals(2, taskDTOs.size());
-        assertEquals(taskSoda.getContent(), taskDTOs.get(1).getContent());
+        Task task2 = new Task();
+        task2.setContent("Cola");
+        TaskDTO task2DTO = service.saveByTodolist(task2, todolist.getId());
+        List<TaskDTO> tasksDTO = service.findAll();
+        assertEquals(2, tasksDTO.size());
+        assertEquals(task2.getContent(), tasksDTO.get(1).getContent());
+        service.delete(task2.getId());
     }
 
     @Test
     public void delete() {
-        Task taskSoda = new Task();
-        taskSoda.setContent("Cola");
-        TaskDTO taskSodaDTO = service.saveByTodolist(taskSoda, todolist.getId());
-        List<TaskDTO> taskDTOs = service.findAll();
-        assertEquals(2, taskDTOs.size());
-        service.delete(taskSodaDTO.getId());
-        taskDTOs = service.findAll();
-        assertEquals(1, taskDTOs.size());
+        Task task2 = new Task();
+        task2.setContent("Cola");
+        TaskDTO task2DTO = service.saveByTodolist(task2, todolist.getId());
+
+        List<TaskDTO> tasksDTO = service.findAll();
+        assertEquals(2, tasksDTO.size());
+
+        service.delete(task2DTO.getId());
+        tasksDTO = service.findAll();
+        assertEquals(1, tasksDTO.size());
     }
 }

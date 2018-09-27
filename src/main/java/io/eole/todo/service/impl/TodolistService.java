@@ -1,7 +1,9 @@
 package io.eole.todo.service.impl;
 
+import io.eole.todo.dto.TaskDTO;
 import io.eole.todo.dto.TodolistDTO;
 import io.eole.todo.exception.NotFoundException;
+import io.eole.todo.persistance.entity.Task;
 import io.eole.todo.persistance.entity.Todolist;
 import io.eole.todo.persistance.repository.ITodolistRepository;
 import io.eole.todo.service.ITodolistService;
@@ -34,6 +36,7 @@ public class TodolistService implements ITodolistService {
 
         Optional<Todolist> tmp = todolistRepository.findById(id);
         if (tmp.isPresent()) {
+
             return modelMapper.map(tmp.get(), TodolistDTO.class);
         }
         throw new NotFoundException("Todo not found");
