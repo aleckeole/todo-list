@@ -15,7 +15,7 @@ public class TodoApplication {
 
 	@RequestMapping("/")
 	String home(){
-		return "HEllo WOrld";
+		return "Hello World";
 	}
 
 	public static void main(String[] args) {
