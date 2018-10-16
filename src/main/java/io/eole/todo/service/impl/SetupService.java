@@ -2,6 +2,8 @@ package io.eole.todo.service.impl;
 
 import io.eole.todo.persistance.entity.Task;
 import io.eole.todo.persistance.entity.Todolist;
+import io.eole.todo.persistance.entity.User;
+import io.eole.todo.persistance.repository.IUserRepository;
 import io.eole.todo.service.ISetupService;
 import io.eole.todo.service.ITaskService;
 import io.eole.todo.service.ITodolistService;
@@ -16,6 +18,9 @@ public class SetupService implements ISetupService {
 
     @Autowired
     ITaskService taskService;
+
+    @Autowired
+    IUserRepository repository;
 
     @Override
     public void setUp() {
@@ -34,6 +39,9 @@ public class SetupService implements ISetupService {
         Task task3 = new Task();
         task3.setContent("Corn-flakes"); // et oui ! Le lait avant les corn-flakes !
         taskService.saveByTodolist(task3, todolist.getId());
+
+        User user = new User("aleckvincent", "password");
+        repository.save(user);
 
     }
 }
