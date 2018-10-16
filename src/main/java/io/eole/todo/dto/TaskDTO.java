@@ -2,7 +2,6 @@ package io.eole.todo.dto;
 
 import io.eole.todo.persistance.entity.Todolist;
 
-import java.util.List;
 
 public class TaskDTO {
 

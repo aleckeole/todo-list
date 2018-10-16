@@ -2,7 +2,6 @@ package io.eole.todo.service;
 
 import io.eole.todo.dto.TaskDTO;
 import io.eole.todo.persistance.entity.Task;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,4 +13,5 @@ public interface ITaskService {
     public void delete(long id);
     public TaskDTO findOneById(long id);
     public TaskDTO save(Task task);
+    public TaskDTO setTaskValue(long id, boolean done);
 }

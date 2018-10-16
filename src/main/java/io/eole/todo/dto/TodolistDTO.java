@@ -1,6 +1,6 @@
 package io.eole.todo.dto;
 
-import io.eole.todo.persistance.entity.Task;
+
 
 import java.util.Date;
 import java.util.List;

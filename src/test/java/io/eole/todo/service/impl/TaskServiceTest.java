@@ -4,7 +4,6 @@ import io.eole.todo.dto.TaskDTO;
 import io.eole.todo.dto.TodolistDTO;
 import io.eole.todo.persistance.entity.Task;
 import io.eole.todo.persistance.entity.Todolist;
-import io.eole.todo.service.ITaskService;
 import io.eole.todo.service.ITodolistService;
 import org.junit.After;
 import org.junit.Before;
