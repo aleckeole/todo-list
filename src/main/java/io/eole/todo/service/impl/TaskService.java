@@ -80,4 +80,16 @@ public class TaskService implements ITaskService {
         task = repository.save(task);
         return modelMapper.map(task, TaskDTO.class);
     }
+
+    @Override
+    public TaskDTO setTaskValue(long id, boolean done) {
+        Optional<Task> tmp = repository.findById(id);
+        if(tmp.isPresent()) {
+            Task task = modelMapper.map(tmp.get(), Task.class);
+            task.setDone(done);
+            task = repository.save(task);
+            return modelMapper.map(task, TaskDTO.class);
+        }
+        throw new NotFoundException("Task not found");
+    }
 }
