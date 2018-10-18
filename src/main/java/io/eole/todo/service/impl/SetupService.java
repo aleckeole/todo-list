@@ -2,8 +2,6 @@ package io.eole.todo.service.impl;
 
 import io.eole.todo.persistance.entity.Task;
 import io.eole.todo.persistance.entity.Todolist;
-import io.eole.todo.persistance.entity.User;
-import io.eole.todo.persistance.repository.IUserRepository;
 import io.eole.todo.service.ISetupService;
 import io.eole.todo.service.ITaskService;
 import io.eole.todo.service.ITodolistService;
@@ -19,8 +17,7 @@ public class SetupService implements ISetupService {
     @Autowired
     ITaskService taskService;
 
-    @Autowired
-    IUserRepository repository;
+
 
     @Override
     public void setUp() {
@@ -37,11 +34,34 @@ public class SetupService implements ISetupService {
         taskService.saveByTodolist(task2, todolist.getId());
 
         Task task3 = new Task();
-        task3.setContent("Corn-flakes"); // et oui ! Le lait avant les corn-flakes !
+        task3.setContent("Corn-flakes"); // Le lait avant les corn-flakes !
         taskService.saveByTodolist(task3, todolist.getId());
 
-        User user = new User("aleckvincent", "password");
-        repository.save(user);
+        /*************************************/
+
+        Todolist todolist2 = new Todolist();
+        todolist2.setTitle("Pièces inscription NY Knicks");
+        todolistService.save(todolist2);
+
+        Task task4 = new Task();
+        task4.setContent("Pièce d'identité");
+        taskService.saveByTodolist(task4, todolist2.getId());
+
+        Task task5 = new Task();
+        task5.setContent("Certificat médical");
+        taskService.saveByTodolist(task5, todolist2.getId());
+
+        Task task6 = new Task();
+        task6.setContent("Chèque de 250€"); // Oui il faut payer 250€ pour jouer en NBA
+        taskService.saveByTodolist(task6, todolist2.getId());
+
+        Task task7 = new Task();
+        task7.setContent("Justificatif de domicile");
+        taskService.saveByTodolist(task7, todolist2.getId());
+
+        Task task8 = new Task();
+        task8.setContent("RIB");
+        taskService.saveByTodolist(task8, todolist2.getId());
 
     }
 }
