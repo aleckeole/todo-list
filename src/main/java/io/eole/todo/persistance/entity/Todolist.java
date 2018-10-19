@@ -24,10 +24,12 @@ public class Todolist {
     @Column
     private String title;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "todolist", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "todolist")
     @JsonIgnore
     private List<Task> tasks = new ArrayList<>();
 
+    @ManyToOne
+    private Category category;
 
 
     public Todolist() {
@@ -64,5 +66,13 @@ public class Todolist {
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

@@ -1,7 +1,9 @@
 package io.eole.todo.service.impl;
 
+import io.eole.todo.persistance.entity.Category;
 import io.eole.todo.persistance.entity.Task;
 import io.eole.todo.persistance.entity.Todolist;
+import io.eole.todo.service.ICategoryService;
 import io.eole.todo.service.ISetupService;
 import io.eole.todo.service.ITaskService;
 import io.eole.todo.service.ITodolistService;
@@ -17,13 +19,18 @@ public class SetupService implements ISetupService {
     @Autowired
     ITaskService taskService;
 
-
+    @Autowired
+    ICategoryService categoryService;
 
     @Override
     public void setUp() {
         Todolist todolist = new Todolist();
         todolist.setTitle("Course de la semaine");
-        todolistService.save(todolist);
+
+        Category cat1 = new Category("Maison", "fas fa-home");
+        categoryService.save(cat1);
+
+        todolistService.saveWithCategory(todolist, cat1.getId());
 
         Task task1 = new Task();
         task1.setContent("Riz long grain");
@@ -41,7 +48,10 @@ public class SetupService implements ISetupService {
 
         Todolist todolist2 = new Todolist();
         todolist2.setTitle("Pièces inscription NY Knicks");
-        todolistService.save(todolist2);
+
+        Category cat2 = new Category("Business", "fas fa-briefcase");
+        categoryService.save(cat2);
+        todolistService.saveWithCategory(todolist2, cat2.getId());
 
         Task task4 = new Task();
         task4.setContent("Pièce d'identité");

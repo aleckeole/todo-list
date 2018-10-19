@@ -11,6 +11,7 @@ public class TodolistDTO {
     private Date date;
     private String title;
     private List<TaskDTO> tasks;
+    private CategoryDTO category;
 
     public TodolistDTO() {
     }
@@ -45,5 +46,13 @@ public class TodolistDTO {
 
     public void setTasks(List<TaskDTO> tasks) {
         this.tasks = tasks;
+    }
+
+    public CategoryDTO getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryDTO category) {
+        this.category = category;
     }
 }

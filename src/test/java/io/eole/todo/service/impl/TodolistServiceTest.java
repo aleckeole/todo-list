@@ -2,8 +2,10 @@ package io.eole.todo.service.impl;
 
 import io.eole.todo.dto.TaskDTO;
 import io.eole.todo.dto.TodolistDTO;
+import io.eole.todo.persistance.entity.Category;
 import io.eole.todo.persistance.entity.Task;
 import io.eole.todo.persistance.entity.Todolist;
+import io.eole.todo.service.ICategoryService;
 import io.eole.todo.service.ITaskService;
 import org.junit.After;
 import org.junit.Before;
@@ -27,6 +29,9 @@ public class TodolistServiceTest {
 
     @Autowired
     ITaskService taskService;
+
+    @Autowired
+    ICategoryService categoryService;
 
     Todolist todo1;
 
@@ -93,5 +98,19 @@ public class TodolistServiceTest {
         List<TodolistDTO> todolistDTOs = service.findAll();
         assertTrue(todolistDTOs.size() == 2);
         service.delete(todo2DTO.getId());
+    }
+
+    @Test
+    public void saveWithCategory() {
+        Category category = new Category("Work", "fas fa-tachometer");
+        categoryService.save(category);
+
+        Todolist todo2 = new Todolist();
+        todo2.setTitle("Test");
+        todo2.setDate(new Date());
+        TodolistDTO todoDTO = service.saveWithCategory(todo2, category.getId());
+
+        assertEquals(todo2.getCategory().getTitle(), category.getTitle());
+        service.delete(todo2.getId());
     }
 }

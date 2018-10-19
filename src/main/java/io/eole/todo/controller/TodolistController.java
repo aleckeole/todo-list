@@ -37,4 +37,9 @@ public class TodolistController {
     public void delete(@PathVariable long id) {
         service.delete(id);
     }
+
+    @RequestMapping(value = "/category/{idCategory}", method = RequestMethod.POST)
+    public TodolistDTO saveWithCategory(@RequestBody Todolist todolist,@PathVariable long idCategory) {
+        return service.saveWithCategory(todolist, idCategory);
+    }
 }

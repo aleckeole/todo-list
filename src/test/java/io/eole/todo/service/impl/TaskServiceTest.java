@@ -86,7 +86,7 @@ public class TaskServiceTest {
         List<TaskDTO> tasksDTO = service.findAll();
         assertEquals(2, tasksDTO.size());
 
-        service.delete(task2DTO.getId());
+        service.delete(todolist.getTasks().get(1).getId());
         tasksDTO = service.findAll();
         assertEquals(1, tasksDTO.size());
     }

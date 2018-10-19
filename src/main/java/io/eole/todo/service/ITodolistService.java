@@ -12,24 +12,26 @@ public interface ITodolistService {
      * @param todolist object
      * @return TodolistDTO
      */
-    public TodolistDTO save(Todolist todolist);
+     TodolistDTO save(Todolist todolist);
 
     /**
      * Get a Todolist by id
      * @param id of the Todolist
      * @return TodolistDTO
      */
-    public TodolistDTO findOneById(long id);
+     TodolistDTO findOneById(long id);
 
     /**
      * Delete a Todolist by id
      * @param id of the Todolist
      */
-    public void delete(long id);
+     void delete(long id);
 
     /**
      * Get all Todolist
      * @return list of TodolistDTO
      */
-    public List<TodolistDTO> findAll();
+     List<TodolistDTO> findAll();
+
+     TodolistDTO saveWithCategory(Todolist todolist, long idCategory);
 }

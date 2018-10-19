@@ -3,8 +3,10 @@ package io.eole.todo.service.impl;
 import io.eole.todo.dto.TaskDTO;
 import io.eole.todo.dto.TodolistDTO;
 import io.eole.todo.exception.NotFoundException;
+import io.eole.todo.persistance.entity.Category;
 import io.eole.todo.persistance.entity.Task;
 import io.eole.todo.persistance.entity.Todolist;
+import io.eole.todo.persistance.repository.ICategoryRepository;
 import io.eole.todo.persistance.repository.ITodolistRepository;
 import io.eole.todo.service.ITodolistService;
 import org.modelmapper.ModelMapper;
@@ -23,6 +25,9 @@ public class TodolistService implements ITodolistService {
 
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    ICategoryRepository categoryRepository;
 
     @Override
     public TodolistDTO save(Todolist todolist){
@@ -61,5 +66,17 @@ public class TodolistService implements ITodolistService {
             todolistDTOs.add(modelMapper.map(t, TodolistDTO.class));
         }
         return todolistDTOs;
+    }
+
+    @Override
+    public TodolistDTO saveWithCategory(Todolist todolist, long idCategory) {
+        Optional<Category> tmp = categoryRepository.findById(idCategory);
+        if (tmp.isPresent()) {
+            Category category = modelMapper.map(tmp.get(), Category.class);
+            todolist.setCategory(category);
+            todolist = todolistRepository.save(todolist);
+            return modelMapper.map(todolist, TodolistDTO.class);
+        }
+        throw new NotFoundException("Category not found. Todolist can't be created.");
     }
 }
